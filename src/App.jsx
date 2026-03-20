@@ -81,7 +81,7 @@ const LABS = [
 ];
 
 const MEMBERS = [
-  { id: 1, name: "Prof. Ben Hicks", role: "Faculty", lab: "Lab::AI", image: getAssetPath("/images/people/headshot_hicks.jpg"), bio: "Director of Research Lab. Expert in Human-AI collaboration and trust in automated systems.", interests: ["Human-AI Interaction", "Ethics", "Explainable AI"] },
+  { id: 1, name: "Prof. Ben Hicks", role: "Faculty", lab: "Lab::AI", image: getAssetPath("/public/images/people/headshot_hicks.jpg"), bio: "Director of Research Lab. Expert in Human-AI collaboration and trust in automated systems.", interests: ["Human-AI Interaction", "Ethics", "Explainable AI"] },
   { id: 2, name: "Dr Chris Snider", role: "Faculty", lab: "Lab::Immerse", image: getAssetPath("/images/people/headshot_snider.jpg"), bio: "Leading spatial computing and haptic feedback research.", interests: ["VR Locomotion", "Haptics", "Spatial UI"] },
   { id: 3, name: "Dr James Gopsill", role: "Researcher", lab: "Lab::Health", image: getAssetPath("/images/people/headshot_gopsill.png"), bio: "Post-doctoral fellow focusing on wearable medical devices.", interests: ["Digital Health", "Wearables", "Care Work"] },
   { id: 4, name: "Dr Mark Goudswaard", role: "Researcher", lab: "Lab::AI", image: getAssetPath("/images/people/headshot_goudswaard.jpg"), bio: "Research associate focusing on NLP and user agency.", interests: ["NLP", "User Agency", "AI Safety"] },
