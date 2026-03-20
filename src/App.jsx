@@ -20,6 +20,25 @@ import {
   Image as ImageIcon
 } from 'lucide-react';
 
+/**
+ * ASSET PATH HELPER
+ * Resolves paths for the 'public' folder.
+ * This version is designed to be compatible with Vite and standard web environments.
+ */
+const getAssetPath = (path) => {
+  // We check for the Vite base URL safely
+  // If we are in the Canvas preview, it defaults to '/'
+  // If we are on GitHub Pages, Vite will inject '/DMF/' here during build
+  const base = (typeof process !== 'undefined' && process.env?.BASE_URL) || '/';
+  
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  // Ensure we don't end up with // if base is already /
+  const separator = base.endsWith('/') ? '' : '/';
+  
+  return `${base}${separator}${cleanPath}`;
+};
+
+
 // --- Data Structures ---
 
 const LABS = [
@@ -62,10 +81,10 @@ const LABS = [
 ];
 
 const MEMBERS = [
-  { id: 1, name: "Prof. Ben Hicks", role: "Faculty", lab: "Lab::AI", image: "/images/people/headshot_hicks.jpg", bio: "Director of Research Lab. Expert in Human-AI collaboration and trust in automated systems.", interests: ["Human-AI Interaction", "Ethics", "Explainable AI"] },
-  { id: 2, name: "Dr Chris Snider", role: "Faculty", lab: "Lab::Immerse", image: "/images/people/headshot_snider.jpg", bio: "Leading spatial computing and haptic feedback research.", interests: ["VR Locomotion", "Haptics", "Spatial UI"] },
-  { id: 3, name: "Dr James Gopsill", role: "Researcher", lab: "Lab::Health", image: "/images/people/headshot_gopsill.png", bio: "Post-doctoral fellow focusing on wearable medical devices.", interests: ["Digital Health", "Wearables", "Care Work"] },
-  { id: 4, name: "Dr Mark Goudswaard", role: "Researcher", lab: "Lab::AI", image: "/images/people/headshot_goudswaard.jpg", bio: "Research associate focusing on NLP and user agency.", interests: ["NLP", "User Agency", "AI Safety"] },
+  { id: 1, name: "Prof. Ben Hicks", role: "Faculty", lab: "Lab::AI", image: getAssetPath("/images/people/headshot_hicks.jpg"), bio: "Director of Research Lab. Expert in Human-AI collaboration and trust in automated systems.", interests: ["Human-AI Interaction", "Ethics", "Explainable AI"] },
+  { id: 2, name: "Dr Chris Snider", role: "Faculty", lab: "Lab::Immerse", image: getAssetPath("/images/people/headshot_snider.jpg"), bio: "Leading spatial computing and haptic feedback research.", interests: ["VR Locomotion", "Haptics", "Spatial UI"] },
+  { id: 3, name: "Dr James Gopsill", role: "Researcher", lab: "Lab::Health", image: getAssetPath("/images/people/headshot_gopsill.png"), bio: "Post-doctoral fellow focusing on wearable medical devices.", interests: ["Digital Health", "Wearables", "Care Work"] },
+  { id: 4, name: "Dr Mark Goudswaard", role: "Researcher", lab: "Lab::AI", image: getAssetPath("/images/people/headshot_goudswaard.jpg"), bio: "Research associate focusing on NLP and user agency.", interests: ["NLP", "User Agency", "AI Safety"] },
   { id: 5, name: "Aisha Khan", role: "Student", lab: "Lab::Tech", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop", bio: "PhD candidate exploring 3D printed electronics.", interests: ["Fabrication", "Smart Materials"] },
   { id: 7, name: "Dr. Priya Patel", role: "Researcher", lab: "Lab::Health", image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?w=400&h=400&fit=crop", bio: "Reader in Digital Health Design.", interests: ["Inclusion", "Neurodiversity"] }
 ];
