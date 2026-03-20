@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { PROJECTS } from './projects';
 import { PUBLICATIONS } from './publications';
+// import { MEMBERS } from './members';
 
 /**
  * ASSET PATH HELPER
@@ -97,8 +98,6 @@ const MEMBERS = [
   { id: 5, name: "Aisha Khan", role: "Student", lab: "Lab::Tech", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop", bio: "PhD candidate exploring 3D printed electronics.", interests: ["Fabrication", "Smart Materials"] },
   { id: 7, name: "Dr. Priya Patel", role: "Researcher", lab: "Lab::Health", image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?w=400&h=400&fit=crop", bio: "Reader in Digital Health Design.", interests: ["Inclusion", "Neurodiversity"] }
 ];
-
-
 
 const PLACEHOLDER = 'https://placehold.co/600x400/1a1a1a/666666?text=DMF:DML+Project';
 
@@ -368,7 +367,7 @@ const App = () => {
   if (activeTab === 'project_page' && selectedProject) {
     // 1. Identify if this is a Programme and find its sub-projects
     const isProgramme = selectedProject.type === "Programme";
-    const subProjects = PROJECTS.filter(p => p.programmeId === selectedProject.id);
+    const subProjects = PROJECTS.filter(p => p.parentProgrammeId === selectedProject.id);
 
     return (
       <div className="min-h-screen bg-slate-950">
@@ -424,29 +423,35 @@ const App = () => {
                     <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-6 border-b border-slate-800 pb-2">
                       Associated Projects
                     </h3>
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="flex flex-col gap-4">
                       {subProjects.map(p => (
                         <div 
                           key={p.id} 
                           onClick={() => { setSelectedProject(p); window.scrollTo(0,0); }}
                           className="group cursor-pointer flex gap-4 items-center bg-slate-900/40 p-3 rounded-2xl border border-slate-800 hover:border-blue-500 transition-all"
                         >
-                          <div className="w-20 h-20 shrink-0 rounded-xl overflow-hidden border border-slate-800">
-                            <img src={p.image || PLACEHOLDER} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" alt={p.title} onError={(e) => {
-                              e.target.onerror = null; // Prevent infinite loops if placeholder fails
-                              e.target.src = PLACEHOLDER;
-                            }} />
+                          <div className="w-16 h-16 shrink-0 rounded-xl overflow-hidden border border-slate-800 bg-slate-950">
+                            <img 
+                              src={p.image || PLACEHOLDER} 
+                              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                              alt={p.title} 
+                              onError={(e) => { e.target.src = PLACEHOLDER; }} 
+                            />
                           </div>
-                          <div>
-                            <h4 className="text-[10px] font-black text-white uppercase leading-tight group-hover:text-blue-400 transition-colors">
+                          <div className="flex flex-col justify-center">
+                            <h4 className="text-[11px] font-black text-white uppercase leading-tight group-hover:text-blue-400 transition-colors">
                               {p.title}
                             </h4>
-                            <p className="text-[9px] text-gray-500 uppercase tracking-widest mt-1 font-bold">View Project</p>
+                            <p className="text-[9px] text-blue-600 uppercase tracking-widest mt-1.5 font-black opacity-0 group-hover:opacity-100 transition-opacity">
+                              Explore →
+                            </p>
                           </div>
                         </div>
                       ))}
                       {subProjects.length === 0 && (
-                        <p className="text-[10px] text-gray-600 italic">No sub-projects currently listed.</p>
+                        <div className="p-6 border border-dashed border-slate-800 rounded-2xl text-center">
+                          <p className="text-[10px] text-gray-600 uppercase tracking-widest font-bold">No sub-projects linked</p>
+                        </div>
                       )}
                     </div>
                   </div>
