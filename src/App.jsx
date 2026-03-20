@@ -23,16 +23,23 @@ import {
 /**
  * ASSET PATH HELPER
  * Resolves paths for the 'public' folder.
- * This version is designed to be compatible with Vite and standard web environments.
+ * Uses Vite's import.meta.env.BASE_URL safely.
  */
 const getAssetPath = (path) => {
-  // We check for the Vite base URL safely
-  // If we are in the Canvas preview, it defaults to '/'
-  // If we are on GitHub Pages, Vite will inject '/DMF/' here during build
-  const base = (typeof process !== 'undefined' && process.env?.BASE_URL) || '/';
+  // Vite defines BASE_URL in the import.meta.env object.
+  // We check if it exists to avoid the "import.meta" error in non-Vite environments.
+  let base = '/';
+  try {
+    // @ts-ignore - Ignore potential compiler warnings about import.meta
+    if (import.meta && import.meta.env && import.meta.env.BASE_URL) {
+      base = import.meta.env.BASE_URL;
+    }
+  } catch (e) {
+    // Fallback to root if import.meta is not supported by the current environment
+    base = '/';
+  }
   
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  // Ensure we don't end up with // if base is already /
   const separator = base.endsWith('/') ? '' : '/';
   
   return `${base}${separator}${cleanPath}`;
@@ -81,7 +88,7 @@ const LABS = [
 ];
 
 const MEMBERS = [
-  { id: 1, name: "Prof. Ben Hicks", role: "Faculty", lab: "Lab::AI", image: getAssetPath("/public/images/people/headshot_hicks.jpg"), bio: "Director of Research Lab. Expert in Human-AI collaboration and trust in automated systems.", interests: ["Human-AI Interaction", "Ethics", "Explainable AI"] },
+  { id: 1, name: "Prof. Ben Hicks", role: "Faculty", lab: "Lab::AI", image: getAssetPath("/images/people/headshot_hicks.jpg"), bio: "Director of Research Lab. Expert in Human-AI collaboration and trust in automated systems.", interests: ["Human-AI Interaction", "Ethics", "Explainable AI"] },
   { id: 2, name: "Dr Chris Snider", role: "Faculty", lab: "Lab::Immerse", image: getAssetPath("/images/people/headshot_snider.jpg"), bio: "Leading spatial computing and haptic feedback research.", interests: ["VR Locomotion", "Haptics", "Spatial UI"] },
   { id: 3, name: "Dr James Gopsill", role: "Researcher", lab: "Lab::Health", image: getAssetPath("/images/people/headshot_gopsill.png"), bio: "Post-doctoral fellow focusing on wearable medical devices.", interests: ["Digital Health", "Wearables", "Care Work"] },
   { id: 4, name: "Dr Mark Goudswaard", role: "Researcher", lab: "Lab::AI", image: getAssetPath("/images/people/headshot_goudswaard.jpg"), bio: "Research associate focusing on NLP and user agency.", interests: ["NLP", "User Agency", "AI Safety"] },
